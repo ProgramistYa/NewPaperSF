@@ -1,0 +1,123 @@
+Команды, выполненные в Django Shell в ходе выполнения задания D5.9 (PDEV-21, ScillFactory). В учебных целях по мере возможностей и пройденного материала использовались разные подходы к поставленным задачам.
+
+1.
+wolf = User.objects.create_user('wolf')
+fox = User.objects.create_user('fox')
+user3 = User.objects.create_user('just_user', first_name = 'Вася', last_name = 'Васечкин', email = 'vasya@gmail.com')
+bear = User.objects.create_user('bear', first_name = 'Петя', last_name = 'Симочкин', email = 'petya@gmail.com')
+
+2.
+user1=User.objects.get(pk=1)
+Author.objects.create(user_relation=user1)
+Author.objects.create(user_relation=User.objects.get(pk=3))
+
+3.
+Category.objects.create(subject = 'Politics')
+Category.objects.create(subject = 'Economy')
+Category.objects.create(subject = 'Education') 
+Category.objects.create(subject = 'Culture') 
+Category.objects.create(subject = 'Sport')
+Category.objects.create(subject='Other')
+
+4.
+4.1
+news1='В сегодняшнем матче местная команда обыграла гостей со счетом 3:2'
+hed_news1 = 'Победа наших хоккеистов.'
+auth1 = Author.objects.all().first()
+post1 = Post.objects.create(author=auth1,content=CONTENTS[0], title=hed_news1, content_text=news1,content_rate=1)
+4.2
+art1 = 'Звездная ночь. Самое подходящее время. Ужин при свечах. Уютный итальянский ресторанчик. Маленькое черное платье. Роскошные волосы, блестящие глаза, серебристый смех. Вместе уже два года. Чудесное время! Настоящая любовь, лучший друг, больше никого. Шампанского! Предлагаю руку и сердце. На одно колено. Люди смотрят? Ну и пусть! Прекрасное бриллиантовое кольцо. Румянец на щеках, очаровательная улыбка.'
+hed_art1 = 'Лариса Керкленд. Предложение.' 
+post2 = Post.objects.create(author=auth1,content=CONTENTS[1], title=hed_art1, content_text=art1,content_rate=1)
+4.3
+art2 ='Результаты недавних исследований сногсшибательны и действительно могут быть мощным мотиватором не прогуливать фитнес-тренировки. Оказывается, регулярные физические нагрузки помогают сохранять длину конечных участков ДНК-хромосом, которые с возрастом неизбежно укорачиваются. Физические упражнения тормозят этот процесс. Это значит, что ты будешь выглядеть моложе, чем не занимающиеся спортом сверстники.'
+hed_art2 = 'Не вечная, но молодость' 
+auth2 = Author.objects.all().last()                                                                
+post3 = Post.objects.create(author=auth2,content=CONTENTS[1], title=hed_art2, content_text=art2,content_rate=1)
+4.4
+news = 'На индонезийском острове Бали прошла встреча председателя КНР Си Цзиньпина и президента США Джо Байд
+ена. Переговоры длились более трех часов и стали первыми проведенным двумя лидерами в очном формате. Детали бесе
+ды раскрыли пресс-службы Белого дома и МИД Китая.'
+title = 'Встреча Си Цзиньпина и Байдена'
+author = Author.objects.get(pk=3)
+post3 = Post.objects.create(author = author, content=CONTENTS[0], title = title, content_text = news, content_rate = 0)
+
+5.
+post1 = Post.objects.get(pk=1)
+cat1 = Category.objects.get(pk=5)
+ post_cat1 = PostCategory(post = post1, category = cat1)
+post_cat1.save()
+
+post_cat2 = PostCategory(post = Post.objects.get(pk=2), category = Category.objects.get(pk=3))
+post_cat2.save()
+post_cat2 = PostCategory(post = Post.objects.get(pk=2), category = Category.objects.get(pk=4))
+ post_cat2.save()
+
+post_cat3 = PostCategory(post = Post.objects.get(pk=3), category = Category.objects.get(pk=5)) 
+post_cat3.save()                                                                               
+post_cat3 = PostCategory(post = Post.objects.get(pk=3), category = Category.objects.get(pk=3)) 
+post_cat3.save()
+
+post_cat4 = PostCategory(post = Post.objects.get(pk=4), category = Category.objects.get(subject = 'Politics'))
+post_cat4.save()
+
+6.
+comment1 = 'Ура!!! Победа!!! Молодцы!!!'
+post1 = Post.objects.get(title='Победа наших хоккеистов.')
+Comment.objects.create(comment_text = comment1, post = post1, comment_user = user3, comment_rate = 0)
+
+comment2 = 'Так романтично!'
+Comment.objects.create(comment_text = comment2, post = Post.objects.get(pk=2), comment_user = User.objects.get(username='fox'), comment_rate = 0)
+
+comment3='Век живи - век учись!'  
+Comment.objects.create(comment_text = comment3, post = Post.objects.get(pk=3), comment_user = User.objects.get(pk=1), comment_rate = 0)
+
+comment4='Тоже мне, исследование...Ни о чем!' 
+Comment.objects.create(comment_text = comment4, post = Post.objects.get(pk=3), comment_user = User.objects.get(username = 'fox'), comment_rate = 0)
+
+comment5 = 'Будут опять давить на чайну...'
+Comment.objects.create(comment_text=comment5, post=Post.objects.get(pk=4), comment_user=User.objects.get(pk=5))
+
+comment6 = 'Может о чем то и договорятся.'  
+Comment.objects.create(comment_text=comment5, post=Post.objects.get(pk=4), comment_user=User.objects.get(pk=4))
+
+7.
+Post.objects.get(pk=1).like()
+Post.objects.get(pk=1).like()
+Post.objects.get(pk=1).dislike() 
+Post.objects.get(pk=2).like()
+Post.objects.get(pk=2).like()
+Post.objects.get(pk=2).like()
+Post.objects.get(pk=3).like()
+Post.objects.get(pk=3).like()
+Post.objects.get(pk=3).dislike()
+Post.objects.get(pk=4).like() 
+Post.objects.get(pk=4).like()
+Post.objects.get(pk=4).like()
+Comment.objects.get(pk=3).like()
+Comment.objects.get(pk=5).dislike()
+Comment.objects.get(pk=7).like() 
+Comment.objects.get(pk=7).like()
+Comment.objects.get(pk=8).like() 
+Comment.objects.get(pk=8).dislike() 
+Comment.objects.get(pk=8).like()
+
+8.
+author1 = Author.objects.get(pk=1)
+author1.update_rating()
+Author.objects.get(pk=2).update_rating() 
+Author.objects.get(pk=3).update_rating()
+
+9.
+User.objects.all().order_by('-author__rating').values('username', 'author__rating')[0]
+
+10.
+best_article = Post.objects.filter(content = ('AC', 'Статья')).order_by('-content_rate')[0]  
+best_article.preview()
+
+Post.objects.filter(content=('AC','Статья')).order_by('-content_rate').values('time_in', 'author__user_relation__username','content_rate', 'title')[0]
+
+11.
+Comment.objects.filter(post = best_article).values('time_in', 'comment_user__username', 'comment_rate', 'comment_text')
+
+
