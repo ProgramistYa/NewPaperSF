@@ -6,15 +6,17 @@ register = template.Library()
 
 #нежелательные слова, при расширении списка вынесем в отдельный файл
 bad_list = ['fuck',
-             'rediska',
+            'rediska',
+            'nigga'
+            'сука'
              ]
 
 
 @register.filter()
 @stringfilter #чтобы не вызывать ошибки, приведем в строку
-def censor(value, bad_words = bad_list):
+def censor(value, bad_words=bad_list):
     words = value.split()#разделим строку
-    new_line=''
+    new_line = ''
 
     for word in words:
         #проверяем, не входит ли слово в нежелательный список
