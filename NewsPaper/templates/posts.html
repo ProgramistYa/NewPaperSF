@@ -26,7 +26,7 @@
            <tr>
                <td>{{ post.title|censor }}</td>
                <td>{{ post.time_in|date:'d M Y' }}</td>
-               <td>{{ post.content_text|censor|truncatewords:20 }}</td>
+               <td>{{ post.content_text|censor|truncatewords:2 }}</td>
                <td>{{ post.content_rate }}</td>
            </tr>
            {% endfor %}

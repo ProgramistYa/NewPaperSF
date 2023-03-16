@@ -3,11 +3,6 @@ from django.template.defaultfilters import stringfilter
 
 register = template.Library()
 
-# bad_list = [
-#     ('Rediska', 'R******'),
-#     ('rediska', 'r******'),
-#     ('fuck', 'f***')
-# ]
 
 #нежелательные слова, при расширении списка вынесем в отдельный файл
 bad_list = ['fuck',
