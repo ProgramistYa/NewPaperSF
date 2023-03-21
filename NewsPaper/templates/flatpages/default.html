@@ -39,13 +39,17 @@
        </div>
    </div>
 </nav>        <!-- Page content-->
-        <div class="container">
+        <div class="container h-100">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     {% block content %}
+                    {{ flatpage.content }}
                     {% endblock content %}
                 </div>
             </div>
         </div>
+        <footer class="mt-auto bg-dark text-lg-end p-2 fst-italic position-absolute bottom-0 end-0">
+            <h6 class="text-light">By Alexander Yakimenko</h6>
+        </footer>
     </body>
 </html>
