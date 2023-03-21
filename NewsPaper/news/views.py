@@ -39,6 +39,7 @@ class PostDetail(DetailView):
 class PostCreate(CreateView):
     form_class = PostForm
     model = Post
+    template_name = 'post_create.html'
     def form_valid(self, form):
         post = form.save(commit=False)
         post.quantity = 20
@@ -56,6 +57,3 @@ class PostEdit(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
-
-
-#HTML файлыы сделать!
