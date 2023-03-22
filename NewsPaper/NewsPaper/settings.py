@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^f*j)pl9ks+=s0cnj!8@oc7w7m&sf6qg@bt3ez6n#o4n0^allk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 SITE_ID = 1
 # Application definition
@@ -42,6 +42,9 @@ INSTALLED_APPS = [
 
     'news',
     'accounts',
+    'sign',
+    'protect',
+
     'fpages',
     'django_filters',
 ]
@@ -123,3 +126,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+# декоратор перенаправит пользователя на страницу входа.
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'

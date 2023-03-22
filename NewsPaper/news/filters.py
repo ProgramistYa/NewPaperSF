@@ -7,12 +7,13 @@ from django import forms
 # можно выполнить фильтрацию сразу по нескольким критериям
 #пока так но с фалед_найм могу ошибиться!
 class PostFilter(FilterSet):
-    date_time__gt = DateFilter(field_name='data_time',
+    date_time__gt = DateFilter(field_name='time_in',
                                widget=forms.DateInput(attrs={'type': 'date'}),
                                lookup_expr='gt',
                                label='Опубликовано после')
+    #header_post = CharFilter(field_name='header_post', label='Заголовок')
 
-    # author_relation = CharFilter(field_name='author__user__username',
+    # author_relation = CharFilter(field_name='author',
     #                              lookup_expr='icontains',
     #                              label='Автор')
     # post_title = CharFilter(field_name='title',

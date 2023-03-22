@@ -3,14 +3,15 @@ from django.shortcuts import render
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
-
+from datetime import datetime
 from django.urls import reverse_lazy
 
 from .forms import PostForm
 from .models import Post, Category
 from .filters import PostFilter
 
-from datetime import datetime
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class PostList(ListView):
     model = Post
@@ -52,8 +53,8 @@ class PostDelete(DeleteView):
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
 
-class PostEdit(UpdateView):
-    #LoginRequiredMixin,
+class PostEdit(UpdateView,LoginRequiredMixin):
+    # для проверки аунтефикации LoginRequiredMixin
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
