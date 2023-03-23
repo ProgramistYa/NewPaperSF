@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -47,6 +46,12 @@ INSTALLED_APPS = [
 
     'fpages',
     'django_filters',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #включите поставщиков, которых вы хотите включить:
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +78,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -102,6 +109,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    # Необходимо войти в систему под именем пользователя в админке Django, независимо от `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # специальные методы аутентификации `allauth`, такие как вход по электронной почте
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -113,8 +127,6 @@ USE_I18N = True
 
 USE_TZ = False
 #True по дефолту
-
-
 
 STATIC_URL = 'static/'
 

@@ -46,14 +46,12 @@ class PostCreate(CreateView):
         post.quantity = 20
         return super().form_valid(form)
 
-
-#Назначить правильную фалй html
 class PostDelete(DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
 
-class PostEdit(UpdateView,LoginRequiredMixin):
+class PostEdit(UpdateView, LoginRequiredMixin):
     # для проверки аунтефикации LoginRequiredMixin
     form_class = PostForm
     model = Post
