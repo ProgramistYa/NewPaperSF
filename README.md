@@ -13,6 +13,6 @@
 <p>&#x2022 python manage.py runserver
 
 <p>&#x2022 python -m pip install django-filter                                       -- доп библ
-<p>&#x2022 python -m pip install django-allauth                                      -- python -m А если вы уже находитесь в терминале, то эта приставка не нужна.
+<p>&#x2022 python -m pip install django-allauth                                      -- "python -m" А если вы уже находитесь в терминале, то эта приставка не нужна.
                                                                                      -- загрузка библиотеки в виртуальное окружение      ( allauth для авторизации) 
 <p>&#x2022 python -m pip install django-filter                                       -- загузка фильра Джанго
