@@ -37,7 +37,7 @@ class PostDetail(DetailView):
     template_name = 'post.html'
     context_object_name = 'post'
 
-class PostCreate(CreateView):
+class PostCreate(CreateView, LoginRequiredMixin):
     form_class = PostForm
     model = Post
     template_name = 'post_create.html'

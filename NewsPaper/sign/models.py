@@ -20,9 +20,10 @@ class BaseRegisterForm(UserCreationForm):
                   )
 
 # форму регистрации SignupForm, которую предоставляет пакет allauth.
-class BasicSignupForm(SignupForm):
+# для того чтоб новый пользователь сразу попадал в груббу basic
+class CommonSignupForm(SignupForm):
     def save(self, request):
-        user = super(BasicSignupForm, self).save(request)
-        basic_group = Group.objects.get(name='basic')
+        user = super(CommonSignupForm, self).save(request)
+        basic_group = Group.objects.get(name='common')
         basic_group.user_set.add(user)
         return user

@@ -149,3 +149,6 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+#Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо формы по умолчанию
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
