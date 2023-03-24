@@ -56,3 +56,6 @@ class PostEdit(UpdateView, LoginRequiredMixin):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+
+
+# CATEGORY LIST

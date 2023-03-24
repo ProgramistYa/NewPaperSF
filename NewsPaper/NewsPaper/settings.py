@@ -78,7 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
+                #`allauth` нужно это от django
                 'django.template.context_processors.request',
             ],
         },
@@ -125,8 +125,8 @@ USE_I18N = True
 
 #USE_L10N = True
 
-USE_TZ = False
-#True по дефолту
+USE_TZ = True
+#Fals было , я сам испрпвил
 
 STATIC_URL = 'static/'
 
@@ -142,3 +142,10 @@ STATICFILES_DIRS = [
 # декоратор перенаправит пользователя на страницу входа.
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
+
+#Дальнейшая конфигурация проекта будет ориентирована на различные способы регистрации/авторизации.
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'

@@ -3,7 +3,6 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 
 
-
 class Author(models.Model):
     user_relation = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField(default=1)
@@ -23,22 +22,22 @@ class Author(models.Model):
 class Category(models.Model):
     subject = models.CharField(max_length=100, unique=True)
 
-news = 'NW'
-article = 'AC'
-CONTENTS = [
-    (news, 'Новость'),
-    (article, 'Статья')
-]
-
 
 class Post(models.Model):
+    news = 'NW'
+    article = 'AC'
+    CONTENTS = [
+        (news, 'Новость'),
+        (article, 'Статья')
+    ]
+
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     content = models.CharField(max_length=10, choices=CONTENTS)
     time_in = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=255)
     content_text = models.TextField()
-    content_rate = models.IntegerField(default=1)
+    content_rate = models.IntegerField(default=0.0)
 
     def __str__(self):
         return f'{self.title} - {self.content_text}'

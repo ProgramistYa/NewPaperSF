@@ -9,6 +9,7 @@ urlpatterns = [
     #path('articles/', include('main.urls_article')),
     #урл для приложений для аутентификации
     path('', include('protect.urls')),
-    path('sign/', include('sign.urls'))
-
+    path('sign/', include('sign.urls')),
+    #Подключение allauth
+    path('accounts/', include('allauth.urls')),
 ]

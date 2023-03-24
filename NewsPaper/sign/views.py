@@ -7,3 +7,4 @@ class BaseRegisterView(CreateView):
     model = User
     form_class = BaseRegisterForm
     success_url = '/'
+    # мб попробовать ?! success_url = '/news/'
