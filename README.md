@@ -3,16 +3,16 @@
 
 
 
-pip install django   
-django-admin startproject NewsPaper               --создание проекта джанго
-python3 manage.py startapp news                   --создание нового приложения
-python manage.py createsuperuser                  --создание суперюзера
+<p>&#x2022 pip install django   
+<p>&#x2022django-admin startproject NewsPaper                              --создание проекта джанго
+<p>&#x2022python3 manage.py startapp news                                  --создание нового приложения
+<p>&#x2022python manage.py createsuperuser                                 --создание суперюзера
 
-python manage.py migrate
-python manage.py makemigrations
-python manage.py runserver
+<p>&#x2022python manage.py migrate
+<p>&#x2022python manage.py makemigrations
+<p>&#x2022python manage.py runserver
 
-python -m pip install django-filter                          -- доп библ
-python -m pip install django-allauth                         -- python -m А если вы уже находитесь в терминале, то эта приставка не нужна.
-                                                             -- загрузка библиотеки в виртуальное окружение      ( allauth для авторизации) 
-python -m pip install django-filter                          -- загузка фильра Джанго
+<p>&#x2022python -m pip install django-filter                                       -- доп библ
+<p>&#x2022python -m pip install django-allauth                                      -- python -m А если вы уже находитесь в терминале, то эта приставка не нужна.
+                                                                                    -- загрузка библиотеки в виртуальное окружение      ( allauth для авторизации) 
+<p>&#x2022python -m pip install django-filter                                       -- загузка фильра Джанго
