@@ -37,24 +37,27 @@ class PostDetail(DetailView):
     template_name = 'post.html'
     context_object_name = 'post'
 
-class PostCreate(CreateView, LoginRequiredMixin):
+class PostCreate(PermissionRequiredMixin, CreateView, LoginRequiredMixin):
     form_class = PostForm
     model = Post
+    permission_required = 'news.add_post'
     template_name = 'post_create.html'
     def form_valid(self, form):
         post = form.save(commit=False)
         post.quantity = 20
         return super().form_valid(form)
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'post_delete.html'
+    permission_required = 'news.delete_post'
     success_url = reverse_lazy('post_list')
 
-class PostEdit(UpdateView, LoginRequiredMixin):
+class PostEdit(PermissionRequiredMixin, UpdateView, LoginRequiredMixin):
     # для проверки аунтефикации LoginRequiredMixin
     form_class = PostForm
     model = Post
+    permission_required = 'news.change_post'
     template_name = 'post_edit.html'
 
 #представление поиска . сделал просто Страницу всех новостей!!!!
@@ -64,11 +67,7 @@ class SearchList(ListView):
     #context_object_name - ИМЯ которое будет в html файле!
     context_object_name = 'news'
     ordering = '-time_in'
-#Разрешение или проверка
-class MyView(PermissionRequiredMixin):
-    permission_required = ('news.add_post',
-                           'news.delete_post',
-                           'news.change_post')
+
 
 
 # CATEGORY LIST
