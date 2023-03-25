@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
-
+from datetime import datetime
 
 class Author(models.Model):
     user_relation = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -21,6 +21,17 @@ class Author(models.Model):
 
 class Category(models.Model):
     subject = models.CharField(max_length=100, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='Categories')
+    # date = models.DateField(default=datetime.utcnow)
+    #
+    # def __str__(self):
+    #     return self.name.title()
+    #
+    # def get_subscribers_emails(self):
+    #     result = set()
+    #     for user in self.subscribers.all():
+    #         result.add(user.email)
+    #     return result
 
 
 class Post(models.Model):

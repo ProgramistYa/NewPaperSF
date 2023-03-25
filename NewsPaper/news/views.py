@@ -11,7 +11,7 @@ from .models import Post, Category
 from .filters import PostFilter
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class PostList(ListView):
     model = Post
@@ -56,6 +56,19 @@ class PostEdit(UpdateView, LoginRequiredMixin):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+
+#представление поиска . сделал просто Страницу всех новостей!!!!
+class SearchList(ListView):
+    model = Post
+    template_name = 'search.html'
+    #context_object_name - ИМЯ которое будет в html файле!
+    context_object_name = 'news'
+    ordering = '-time_in'
+#Разрешение или проверка
+class MyView(PermissionRequiredMixin):
+    permission_required = ('news.add_post',
+                           'news.delete_post',
+                           'news.change_post')
 
 
 # CATEGORY LIST

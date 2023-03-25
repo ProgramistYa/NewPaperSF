@@ -12,16 +12,15 @@
     <h1>Все посты (всего - {{ posts|length}})</h1>
 
     <h3>{{ time_now|date:'d M Y'}}</h3>
-
+    <hr>
 <form action="" method="get">
     {{ filterset.form.as_p }}
     <input type="submit" value="Найти" />
 </form>
 
-
     <hr>
     {% if posts %}
-       <table class="table" cellspacing="2" cellpadding="3" border="3" width="50%">
+       <table class="table table-bordered" cellspacing="2" cellpadding="3" border="3" width="50%">
            <tr>
                <td><strong>Заголовок</strong></td>
                <td><strong>Дата публикации</strong></td>
@@ -65,5 +64,5 @@
             <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
         {% endif %}
     {% endif %}
-
+    <hr>
 {% endblock content %}

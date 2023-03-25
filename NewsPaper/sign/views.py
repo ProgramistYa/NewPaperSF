@@ -11,12 +11,10 @@ class BaseRegisterView(CreateView):
     success_url = '/'
     # мб попробовать ?! success_url = '/news/'
 
-
 # добавьте миксин ограничения прав и в атрибуте класса-представления пропишите,
 # какими правами должен обладать пользователь для доступа к этой странице.
 # class ProtectedView(LoginRequiredMixin, TemplateView):
 #     template_name = 'index.html'
-
 
 @login_required
 def upgrade_me(request):

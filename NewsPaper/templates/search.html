@@ -1,62 +1,41 @@
-<!--#помоему этого файла тут не должно бытть ?!-->
+<!--#страница для отоброжения всех новостей!-->
 
 {% extends 'flatpages/default.html' %}
 
-{% load censor_filters %}
+{% block title %} Страница с постами {% endblock title %}
 
-{% csrf_token %}
-
-{% block title %} Search {% endblock title %}
+{% load custom_filters %}
+{% load custom_tags %}
 
 {% block content %}
+    <h1>Тут увидите все посты: статьи и новости.</h1>
+    <h3>Найдено {{ news|length }} публикаций.</h3>
 
-<form method="GET">
-    {{ filter.form }}
-    <input type="submit" value="Найти">
-</form>
-      <table>
-           <tr>
-               <td><b>Заголовок</b></td>
-               <td><b>Дата</b></td>
-               <td><b>Содержание</b></td>
-           </tr>
-          {% for post in filter.qs %}
-           <tr>
-               <td> <a>{{ post.name|censor }}</a></td>
-               <td>{{ post.time_now|date:'d M Y'}}</td>
-               <td>{{ post.description|truncatechars:20|censor }}</td>
+    <hr>
 
+    {% if news %}
+        <table class="table table-bordered" cellspacing="3" cellpadding="5" border="5" width="45%">
+            <tr>
+                <td><strong>Название</strong></td>
+                <td><strong>Дата публикации</strong></td>
+                <td><strong>Категория</strong></td>
+            </tr>
 
+            {% for new in news %}
+            <tr>
+                <td>{{ new.title|censor }}</td>
+                <td>{{ new.time_in|date:'d M Y' }}</td>
+                <td>{{ new.content|truncatechars:30|censor }}</td>
+            </tr>
+            {% endfor %}
 
-           </tr>
-           {% endfor %}
-       </table>
+        </table>
 
-{% if page_obj.has_previous %}
-<a href = "?page=1">First</a>
-<a href = "?page={{ page_obj.previous_page_number }}"> << </a>
-{% endif %}
+    {% else %}
+        <h2> Ничего нет !</h2>
 
-{% if is_paginated %}
-
-    {% if page_obj.has_previous %}
-        <a href="?page=1">First</a>
-        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
     {% endif %}
 
-    {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-            <a>{{ num }}</a>
-        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <a href="?page={{ num }}">{{ num }}</a>
-        {% endif %}
-    {% endfor %}
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">>>></a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-    {% endif %}
-
-{% endif %}
+    <hr>
 
 {% endblock content %}
