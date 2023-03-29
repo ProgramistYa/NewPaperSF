@@ -1,17 +1,20 @@
-from django.shortcuts import render
-
 from django.views.generic import (
-    ListView, DetailView, CreateView, UpdateView, DeleteView
+    ListView, DetailView, CreateView, UpdateView, DeleteView, View
 )
+from django.shortcuts import render, reverse, redirect
 from datetime import datetime
 from django.urls import reverse_lazy
-
+from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 from .models import Post, Category
 from .filters import PostFilter
-
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+#для расслыок на почту по емейлу
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
+
+from django.db.models.signals import post_save
 
 class PostList(ListView):
     model = Post
@@ -68,6 +71,69 @@ class SearchList(ListView):
     context_object_name = 'news'
     ordering = '-time_in'
 
+# CATEGORY EMAIL
 
+#Добавьте пользователю возможность подписываться на рассылку новостей в какой-либо категории
+@login_required
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+
+    if not category.subscribers.filter(id=user.id).exists():
+        category.subscribers.add(user)
+        email = user.email
+        html = render_to_string('subscrib.html',
+                                {'category': category,
+                                 'user': user
+                                 }
+                                )
+        msg = EmailMultiAlternatives(
+            subject=f'{category} subscription',
+            body='',
+            from_email='s-ya98@yandex.com',
+            to=[email])
+        msg.attach_alternative(html, "subscrib/html")
+        try:
+            msg.send()
+        except Exception as e:
+            print(e)
+        return redirect('protect:index')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+
+class AppointmentView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'make_appointment.html', {})
+
+    def post(self, request, *args, **kwargs):
+        appointment = Appointment(
+            date=datetime.strptime(request.POST['date'], '%Y-%m-%d'),
+            client_name=request.POST['client_name'],
+            message=request.POST['message'],
+        )
+        appointment.save()
+#
+#         # получаем наш html
+#         html_content = render_to_string(
+#             'appointment_created.html',
+#             {
+#                 'appointment': appointment,
+#             }
+#         )
+#
+#         # в конструкторе уже знакомые нам параметры, да? Называются правда немного по-другому, но суть та же.
+#         msg = EmailMultiAlternatives(
+#             subject=f'{appointment.client_name} {appointment.date.strftime("%Y-%M-%d")}',
+#             body=appointment.message,  # это то же, что и message
+#             from_email='peterbadson@yandex.ru',
+#             to=['skavik46111@gmail.com'],  # это то же, что и recipients_list
+#         )
+#         msg.attach_alternative(html_content, "text/html")  # добавляем html
+#
+#         msg.send()  # отсылаем
+#
+#         return redirect('appointments:make_appointment')
 
 # CATEGORY LIST

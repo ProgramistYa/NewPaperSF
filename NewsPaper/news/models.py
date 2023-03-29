@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.urls import reverse
 
 class Author(models.Model):
     user_relation = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -21,7 +22,14 @@ class Author(models.Model):
 
 class Category(models.Model):
     subject = models.CharField(max_length=100, unique=True)
-    subscribers = models.ManyToManyField(User, related_name='Categories')
+    subscribers = models.ManyToManyField(User, blank=True, related_name='Categories')
+
+    def get_category(self):
+        return self.name
+
+    def __str__(self):
+        return f'{self.category}'
+
     # date = models.DateField(default=datetime.utcnow)
     #
     # def __str__(self):
@@ -33,7 +41,6 @@ class Category(models.Model):
     #         result.add(user.email)
     #     return result
 
-
 class Post(models.Model):
     news = 'NW'
     article = 'AC'
@@ -43,7 +50,7 @@ class Post(models.Model):
     ]
 
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    content = models.CharField(max_length=10, choices=CONTENTS)
+    content = models.CharField(max_length=2, choices=CONTENTS)
     time_in = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=255)
@@ -88,3 +95,10 @@ class Comment(models.Model):
         self.comment_rate -= 1
         self.save()
         #return self.comment_rate
+
+# model test send.mail
+class AddNewInProject(models.Model):
+    message = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'{self.message}'

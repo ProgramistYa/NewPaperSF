@@ -3,7 +3,6 @@ from .models import Post
 from django_filters import DateFilter, CharFilter, FilterSet
 from django import forms
 
-
 # можно выполнить фильтрацию сразу по нескольким критериям
 #пока так но с фалед_найм могу ошибиться!
 class PostFilter(FilterSet):

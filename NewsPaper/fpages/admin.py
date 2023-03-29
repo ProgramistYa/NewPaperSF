@@ -3,7 +3,6 @@ from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.utils.translation import gettext_lazy as _
 
-
 # Определите новый FlatPageAdmin
 class FlatPageAdmin(FlatPageAdmin):
     fieldsets = (

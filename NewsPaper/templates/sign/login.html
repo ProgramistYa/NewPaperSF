@@ -4,6 +4,15 @@
 <h2> Войти в систему </h2>
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
+
+<div class="socialaccount_ballot">
+    <ul class="socialaccount_providers">
+        <li>
+            <a title="Google" class="socialaccount_provider google" href="/accounts/google/login/?process=login&amp;next=%2F">Google</a>
+        </li>
+    </ul>
+    <div class="login-or">или</div>
+    </div>
 <table>
 <tr>
     <td>{{ form.username.label_tag }}</td>

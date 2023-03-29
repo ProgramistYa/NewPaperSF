@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User, Group
 from django.views.generic.edit import CreateView
 from .models import BaseRegisterForm
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
