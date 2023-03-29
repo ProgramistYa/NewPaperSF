@@ -100,28 +100,6 @@ def subscribe(request, pk):
         return redirect('protect:index')
     return redirect(request.META.get('HTTP_REFERER'))
 
-@login_required
-def unsubscribe(request, pk):
-    user = request.user
-    category = Category.objects.get(id=pk)
-
-    if category.subscribers.filter(id=user.id).exists():
-        category.subscribers.remove(user)
-    return redirect('protect:index')
-
-
-class AppointmentView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'make_appointment.html', {})
-
-    def post(self, request, *args, **kwargs):
-        appointment = Appointment(
-            date=datetime.strptime(request.POST['date'], '%Y-%m-%d'),
-            client_name=request.POST['client_name'],
-            message=request.POST['message'],
-        )
-        appointment.save()
-
 # CATEGORY LIST
 
 class CategoryListView(ListView):
