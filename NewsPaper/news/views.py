@@ -1,7 +1,7 @@
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView, View
 )
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from datetime import datetime
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -100,7 +100,14 @@ def subscribe(request, pk):
         return redirect('protect:index')
     return redirect(request.META.get('HTTP_REFERER'))
 
+@login_required
+def unsubscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
 
+    if category.subscribers.filter(id=user.id).exists():
+        category.subscribers.remove(user)
+    return redirect('protect:index')
 
 
 class AppointmentView(View):
@@ -114,26 +121,21 @@ class AppointmentView(View):
             message=request.POST['message'],
         )
         appointment.save()
-#
-#         # получаем наш html
-#         html_content = render_to_string(
-#             'appointment_created.html',
-#             {
-#                 'appointment': appointment,
-#             }
-#         )
-#
-#         # в конструкторе уже знакомые нам параметры, да? Называются правда немного по-другому, но суть та же.
-#         msg = EmailMultiAlternatives(
-#             subject=f'{appointment.client_name} {appointment.date.strftime("%Y-%M-%d")}',
-#             body=appointment.message,  # это то же, что и message
-#             from_email='peterbadson@yandex.ru',
-#             to=['skavik46111@gmail.com'],  # это то же, что и recipients_list
-#         )
-#         msg.attach_alternative(html_content, "text/html")  # добавляем html
-#
-#         msg.send()  # отсылаем
-#
-#         return redirect('appointments:make_appointment')
 
 # CATEGORY LIST
+
+class CategoryListView(ListView):
+    model = Post
+    template_name = 'message_mail.html'
+    context_object_name = 'category_news_list'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(category=self.category).order_by('-date')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_subscriber'] = self.request.user not in self.category.subscribers.all()
+        context['category'] = self.category
+        return context

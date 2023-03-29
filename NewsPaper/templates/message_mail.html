@@ -1,0 +1,11 @@
+{% extends 'flatpages/default.html' %}
+{% load censor_filters %}
+{% block title %}
+Posts List
+{% endblock title %}
+
+{% block content %}
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться</a> </p>
+    {% endif%}
+{% endblock content %}
