@@ -8,7 +8,7 @@ from .models import PostCategory
 
 def send_notifications(preview, pk, title, subscribers):
     html_content = render_to_string(
-        'subscrib.html',
+        'post_created.email.html',
         {
             'text': preview,
             'link': f'{settings.SITE_URL}/news/{pk}',
