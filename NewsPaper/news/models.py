@@ -21,25 +21,18 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    subject = models.CharField(max_length=100, unique=True)
-    subscribers = models.ManyToManyField(User, blank=True, related_name='Categories')
-
-    def get_category(self):
-        return self.name
-
+    subject = models.CharField(unique=True, max_length=64)
+    subscribers = models.ManyToManyField(User, blank=True, null=True, related_name='Categories')
+    #Либо с большой буквы                                                        cC
     def __str__(self):
-        return f'{self.category}'
+        return self.subject.title()
 
-    # date = models.DateField(default=datetime.utcnow)
-    #
-    # def __str__(self):
-    #     return self.name.title()
-    #
-    # def get_subscribers_emails(self):
-    #     result = set()
-    #     for user in self.subscribers.all():
-    #         result.add(user.email)
-    #     return result
+    def get_subscribers_emails(self):
+        result = set()
+        for user in self.subscribers.all():
+            result.add(user.email)
+        return result
+
 
 class Post(models.Model):
     news = 'NW'

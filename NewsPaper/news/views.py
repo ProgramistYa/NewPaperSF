@@ -4,6 +4,7 @@ from django.views.generic import (
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from datetime import datetime
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm
 from .models import Post, Category
@@ -46,8 +47,9 @@ class PostCreate(PermissionRequiredMixin, CreateView, LoginRequiredMixin):
     permission_required = 'news.add_post'
     template_name = 'post_create.html'
     def form_valid(self, form):
-        post = form.save(commit=False)
-        post.quantity = 20
+        self.object = form.save(commit=False)
+        self.object.content = 'NW'
+        self.object.save()
         return super().form_valid(form)
 
 class PostDelete(PermissionRequiredMixin, DeleteView):
@@ -101,15 +103,24 @@ def subscribe(request, pk):
     return redirect(request.META.get('HTTP_REFERER'))
 
 # CATEGORY LIST
+@login_required
+def upgrade_me(request):
+    user = request.user
+    premium_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists():
+        premium_group.user_set.add(user)
+    return redirect('/')
 
 class CategoryListView(ListView):
     model = Post
-    template_name = 'message_mail.html'
+    ordering = '-time_in'
+    template_name = 'category_list.html'
     context_object_name = 'category_news_list'
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, id=self.kwargs['pk'])
-        queryset = Post.objects.filter(category=self.category).order_by('-date')
+        queryset = Post.objects.filter(category=self.category).order_by('-time_in')
+        self.filterset = PostFilter(self.request.GET, queryset)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -118,6 +129,7 @@ class CategoryListView(ListView):
         context['category'] = self.category
         return context
 
+#   ХЗ
 @login_required
 def subscribe(request, pk):
     user = request.user
@@ -125,4 +137,4 @@ def subscribe(request, pk):
     category.subscribers.add(user)
 
     message = "Вы подписаны на категорию новостей"
-    return render(request, 'subscribe.html', {'category': category.subject, 'message': message})
+    return render(request, 'subscrib.html', {'category': category.subject, 'message': message})
