@@ -22,7 +22,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     subject = models.CharField(unique=True, max_length=64)
-    subscribers = models.ManyToManyField(User, blank=True, null=True, related_name='Categories')
+    subscribers = models.ManyToManyField(User, blank=True, related_name='Categories')
     #Либо с большой буквы                                                        cC
     def __str__(self):
         return self.subject.title()

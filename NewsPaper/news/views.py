@@ -76,31 +76,32 @@ class SearchList(ListView):
 # CATEGORY EMAIL
 
 #Добавьте пользователю возможность подписываться на рассылку новостей в какой-либо категории
-@login_required
-def subscribe(request, pk):
-    user = request.user
-    category = Category.objects.get(id=pk)
 
-    if not category.subscribers.filter(id=user.id).exists():
-        category.subscribers.add(user)
-        email = user.email
-        html = render_to_string('subscrib.html',
-                                {'category': category,
-                                 'user': user
-                                 }
-                                )
-        msg = EmailMultiAlternatives(
-            subject=f'{category} subscription',
-            body='',
-            from_email='s-ya98@yandex.com',
-            to=[email])
-        msg.attach_alternative(html, "subscrib/html")
-        try:
-            msg.send()
-        except Exception as e:
-            print(e)
-        return redirect('protect:index')
-    return redirect(request.META.get('HTTP_REFERER'))
+# @login_required
+# def subscribe(request, pk):
+#     user = request.user
+#     category = Category.objects.get(id=pk)
+#
+#     if not category.subscribers.filter(id=user.id).exists():
+#         category.subscribers.add(user)
+#         email = user.email
+#         html = render_to_string('subscrib.html',
+#                                 {'category': category,
+#                                  'user': user
+#                                  }
+#                                 )
+#         msg = EmailMultiAlternatives(
+#             subject=f'{category} subscription',
+#             body='',
+#             from_email='s-ya98@yandex.com',
+#             to=[email])
+#         msg.attach_alternative(html, "subscrib/html")
+#         try:
+#             msg.send()
+#         except Exception as e:
+#             print(e)
+#         return redirect('protect:index')
+#     return redirect(request.META.get('HTTP_REFERER'))
 
 # CATEGORY LIST
 @login_required
