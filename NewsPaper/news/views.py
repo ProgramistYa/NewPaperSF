@@ -16,6 +16,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 from django.db.models.signals import post_save
+from django.http import HttpResponseRedirect
 
 class PostList(ListView):
     model = Post
@@ -139,3 +140,11 @@ def subscribe(request, pk):
 
     message = "Вы подписаны на категорию новостей"
     return render(request, 'subscrib.html', {'category': category.subject, 'message': message})
+
+#У милки2022
+#
+def unsubscribe(request, pk):
+    category = Category.objects.get(pk=pk)
+    category.subscribers.remove(request.user.id)
+
+    return HttpResponseRedirect(reverse('categories'))

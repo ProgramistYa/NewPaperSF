@@ -26,7 +26,9 @@ def send_notifications(preview, pk, title, subscribers):
     msg.send()
 
 @receiver(m2m_changed, sender=PostCategory)
-def notify_new_post(sender, instance, **kwargs):
+def notify_new_post(sender, instance, action, **kwargs):
+    # if action == 'post_add':
+    #     print("СИГНАЛ ПОЛУЧЕН")
     if kwargs['action'] == 'post_add':
         categories = instance.category.all()
         subscribers: list[str] = []

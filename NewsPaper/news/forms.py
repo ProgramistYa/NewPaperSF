@@ -14,6 +14,7 @@ class PostForm(forms.ModelForm):
         fields = [
             'author',
             'title',
+            'category',
             'content',
             'content_rate',
             'content_text',
