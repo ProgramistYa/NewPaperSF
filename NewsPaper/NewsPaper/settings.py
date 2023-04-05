@@ -162,5 +162,12 @@ APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 # если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
+#РедисЛАб
+CELERY_BROKER_URL = 'redis-19444.c61.us-east-1-3.ec2.cloud.redislabs.com'
+CELERY_RESULT_BACKEND = 'redis-19444.c61.us-east-1-3.ec2.cloud.redislabs.com'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
 # if DEBUG:
 #     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
