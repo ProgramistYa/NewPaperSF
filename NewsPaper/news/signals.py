@@ -8,7 +8,7 @@ from .models import PostCategory
 
 def send_notifications(preview, pk, title, subscribers):
     html_content = render_to_string(
-        'post_created.email.html',
+        'post_created_email.html',
         {
             'text': preview,
             'link': f'{settings.SITE_URL}/news/{pk}',
@@ -29,7 +29,7 @@ def send_notifications(preview, pk, title, subscribers):
 def notify_new_post(sender, instance, action, **kwargs):
     # if action == 'post_add':
     #     print("СИГНАЛ ПОЛУЧЕН")
-    if kwargs['action'] == 'post_add':
+    if action == 'post_add':
         categories = instance.category.all()
         subscribers: list[str] = []
         for category in categories:

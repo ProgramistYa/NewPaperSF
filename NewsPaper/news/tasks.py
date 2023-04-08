@@ -28,7 +28,7 @@ def celery_week_mails():
     posts = Post.objects.filter(post_data__range=(start_date, end_date))
 
     for category in Category.objects.all():
-        html_content = render_to_string('post_created.email.html',
+        html_content = render_to_string('post_created_email.html',
                                         {'posts': posts, 'category': category}, )
         msg = EmailMultiAlternatives(
             subject=f'"Еженедельная подписка (celery)"',

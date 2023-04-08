@@ -22,16 +22,13 @@ class Author(models.Model):
 
 class Category(models.Model):
     subject = models.CharField(unique=True, max_length=64)
-    subscribers = models.ManyToManyField(User, blank=True, related_name='Categories')
+    subscribers = models.ManyToManyField(User, related_name='Categories')
     #Либо с большой буквы                                                        cC
     def __str__(self):
         return self.subject.title()
 
-    # def get_subscribers_emails(self):
-    #     result = set()
-    #     for user in self.subscribers.all():
-    #         result.add(user.email)
-    #     return result
+    def get_category(self):
+        return self.name
 
 
 class Post(models.Model):
@@ -66,13 +63,16 @@ class Post(models.Model):
     def preview(self):
         return f'{self.content_text[:124]}...'
 
+    def get_absolute_url(self):
+        return reverse('news', args=[str(self.id)])
+
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    # def __str__(self):
-    #     return f'{self.category}:{self.author}'
+    def __str__(self):
+        return f'{self.category}:{self.post}'
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -90,6 +90,9 @@ class Comment(models.Model):
         self.comment_rate -= 1
         self.save()
         #return self.comment_rate
+
+    def __str__(self):
+        return f'{self.comment_text}'
 
 # model test send.mail
 class AddNewInProject(models.Model):
