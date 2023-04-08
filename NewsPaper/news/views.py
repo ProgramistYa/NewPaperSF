@@ -141,20 +141,13 @@ def subscribe(request, pk):
     message = "Вы подписаны на категорию новостей"
     return render(request, 'subscrib.html', {'category': category.subject, 'message': message})
 
-#У мии202
 @login_required
 def unsubscribe(request, pk):
+    user = request.user
     category = Category.objects.get(pk=pk)
     category.subscribers.remove(request.user.id)
 
-    return HttpResponseRedirect(reverse('Categories'))
+    if category.subscribers.filter(id=user.id).exists():
+        category.subscribers.remove(user)
+    return redirect('protect:index')
 
-#ЛИБО
-# @login_required
-# def unsubscribe(request, pk):
-#     user = request.user
-#     category = Category.objects.get(id=pk)
-#
-#     if category.subscribers.filter(id=user.id).exists():
-#         category.subscribers.remove(user)
-#     return redirect('protect:index')
