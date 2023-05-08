@@ -11,7 +11,7 @@ from .models import Post, Category
 from .filters import PostFilter
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-#для расслыок на почту по емейлу
+#  для расслыок на почту по емейлу
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 

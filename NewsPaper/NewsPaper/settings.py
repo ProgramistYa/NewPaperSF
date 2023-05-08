@@ -175,10 +175,16 @@ CELERY_RESULT_SERIALIZER = 'json'
 #Кешируем.
 CACHES = {
     'default': {
-        'TIMEOUT': 60,
+        'TIMEOUT': 30,
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),   # Указываем, куда будем сохранять кэшируемые файлы!
     }
 }
+
+# пытались выдать свой сайт за использующий https
+# CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+
+
 # if DEBUG:
 #     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
