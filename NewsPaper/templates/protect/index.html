@@ -2,15 +2,15 @@
 
 {% block content %}
 <h2>Страница авторизованного пользователя {{request.user.username}}</h2>
-<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+<div> Здесь может содержаться персональная информация для каждого пользователя</div>
 
-<button> <a href="sign/logout/">Выйти</a> </button>
+<button><a href="sign/logout/">Выйти</a></button>
 {% if is_not_authors %}
-<button> <a href="sign/upgrade/"> Хочу стать Автором!</a> </button>
+<button><a href="sign/upgrade/"> Хочу стать Автором!</a></button>
 {% endif %}
 <hr>
 <li>
-    <a href="{% url 'unsubscribe' user.id %}" class="btn btn-info btn-sm"> Unsubscribe </a> </p>
+    <a href="{% url 'unsubscribe' user.id %}" class="btn btn-info btn-sm"> Unsubscribe </a>
 </li>
 
 

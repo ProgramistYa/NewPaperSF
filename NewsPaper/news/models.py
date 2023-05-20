@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.urls import reverse
 
+
 class Author(models.Model):
     user_relation = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField(default=1)
@@ -23,7 +24,8 @@ class Author(models.Model):
 class Category(models.Model):
     subject = models.CharField(unique=True, max_length=64)
     subscribers = models.ManyToManyField(User, related_name='Categories')
-    #Либо с большой буквы                                                        cC
+
+    # Либо с большой буквы                                                        cC
     def __str__(self):
         return self.subject.title()
 
@@ -53,12 +55,12 @@ class Post(models.Model):
     def like(self):
         self.content_rate += 1
         self.save()
-        #return self.content_rate
+        # return self.content_rate
 
     def dislike(self):
         self.content_rate -= 1
         self.save()
-        #return self.content_rate
+        # return self.content_rate
 
     def preview(self):
         return f'{self.content_text[:124]}...'
@@ -74,6 +76,7 @@ class PostCategory(models.Model):
     def __str__(self):
         return f'{self.category}:{self.post}'
 
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment_user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -84,15 +87,16 @@ class Comment(models.Model):
     def like(self):
         self.comment_rate += 1
         self.save()
-        #return self.comment_rate
+        # return self.comment_rate
 
     def dislike(self):
         self.comment_rate -= 1
         self.save()
-        #return self.comment_rate
+        # return self.comment_rate
 
     def __str__(self):
         return f'{self.comment_text}'
+
 
 # model test send.mail
 class AddNewInProject(models.Model):

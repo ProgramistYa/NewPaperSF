@@ -18,6 +18,7 @@ from django.template.loader import render_to_string
 from django.db.models.signals import post_save
 from django.http import HttpResponseRedirect
 
+
 class PostList(ListView):
     model = Post
     ordering = 'time_in'
@@ -37,27 +38,32 @@ class PostList(ListView):
 
         return context
 
+
 class PostDetail(DetailView):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
+
 
 class PostCreate(PermissionRequiredMixin, CreateView, LoginRequiredMixin):
     form_class = PostForm
     model = Post
     permission_required = 'news.add_post'
     template_name = 'post_create.html'
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.content = 'NW'
         self.object.save()
         return super().form_valid(form)
 
+
 class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'post_delete.html'
     permission_required = 'news.delete_post'
     success_url = reverse_lazy('post_list')
+
 
 class PostEdit(PermissionRequiredMixin, UpdateView, LoginRequiredMixin):
     # для проверки аунтефикации LoginRequiredMixin
@@ -66,17 +72,19 @@ class PostEdit(PermissionRequiredMixin, UpdateView, LoginRequiredMixin):
     permission_required = 'news.change_post'
     template_name = 'post_edit.html'
 
-#представление поиска . сделал просто Страницу всех новостей!!!!
+
+# представление поиска . сделал просто Страницу всех новостей!!!!
 class SearchList(ListView):
     model = Post
     template_name = 'search.html'
-    #context_object_name - ИМЯ которое будет в html файле!
+    # context_object_name - ИМЯ которое будет в html файле!
     context_object_name = 'news'
     ordering = '-time_in'
 
+
 # CATEGORY EMAIL
 
-#Добавьте пользователю возможность подписываться на рассылку новостей в какой-либо категории
+# Добавьте пользователю возможность подписываться на рассылку новостей в какой-либо категории
 
 @login_required
 def subscribe_to_category(request, pk):
@@ -104,6 +112,7 @@ def subscribe_to_category(request, pk):
         return redirect('protect:index')
     return redirect(request.META.get('HTTP_REFERER'))
 
+
 # CATEGORY LIST
 @login_required
 def upgrade_me(request):
@@ -112,6 +121,7 @@ def upgrade_me(request):
     if not request.user.groups.filter(name='authors').exists():
         premium_group.user_set.add(user)
     return redirect('/')
+
 
 class CategoryListView(ListView):
     model = Post
@@ -131,6 +141,7 @@ class CategoryListView(ListView):
         context['category'] = self.category
         return context
 
+
 #   ХЗ
 @login_required
 def subscribe(request, pk):
@@ -141,6 +152,7 @@ def subscribe(request, pk):
     message = "Вы подписаны на категорию новостей"
     return render(request, 'subscrib.html', {'category': category.subject, 'message': message})
 
+
 @login_required
 def unsubscribe(request, pk):
     user = request.user
@@ -150,4 +162,3 @@ def unsubscribe(request, pk):
     if category.subscribers.filter(id=user.id).exists():
         category.subscribers.remove(user)
     return redirect('protect:index')
-
