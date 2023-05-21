@@ -175,15 +175,119 @@ CELERY_RESULT_SERIALIZER = 'json'
 #Кешируем.
 CACHES = {
     'default': {
-        'TIMEOUT': 30,
+        'TIMEOUT': 5,
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),   # Указываем, куда будем сохранять кэшируемые файлы!
     }
 }
 
-# пытались выдать свой сайт за использующий https
-# CSRF_COOKIE_SECURE = True
-# SECURE_SSL_REDIRECT = True
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'style': '{',
+
+#ФОРМАТИРОВАНИЕ
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'extended': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s'
+        },
+        'path_extended': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s'
+        },
+        'full': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s'
+        },
+    },
+
+#ФИЛЬТРЫ
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+
+
+#ОБРАБОТЧИКИ
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'warning_to_console': {
+            'level': 'WARNING',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'path_extended',
+        },
+        'error_to_console': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'full',
+        },
+        'mail_to_admin': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'path_extended',
+        },
+        'general_to_file': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'extended',
+        },
+        'error_to_file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'full',
+        },
+        'security_to_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'extended',
+        },
+    },
+
+#РЕГИСТРАТОРЫ
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'warning_to_console', 'error_to_console', 'general_to_file', ],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['mail_to_admin', 'error_to_file', ],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['mail_to_admin', 'error_to_file', ],
+            'level': 'ERROR',
+        },
+        'django.template': {
+            'handlers': ['error_to_file', ],
+            'level': 'ERROR',
+        },
+        'django.db.backends': {
+            'handlers': ['error_to_file', ],
+            'level': 'ERROR',
+        },
+        'django.security': {
+            'handlers': ['security_to_file', ],
+        },
+    }
+}
 
 
 # if DEBUG:
