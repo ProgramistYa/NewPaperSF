@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    #включите поставщиков, которых вы хотите включить:
+    # включите поставщиков, которых вы хотите включить:
     'allauth.socialaccount.providers.google',
     'django_apscheduler',
 ]
@@ -50,17 +50,24 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+
+    'django.middleware.locale.LocaleMiddleware',
+
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    #Кешируем но нам не подходит.
+    # Кешируем но нам не подходит.
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'NewsPaper.urls'
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 TEMPLATES = [
     {
@@ -73,7 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                #`allauth` нужно это от django
+                # `allauth` нужно это от django
                 'django.template.context_processors.request',
             ],
         },
@@ -116,9 +123,8 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-#USE_L10N = True
-USE_TZ = True
 
+USE_TZ = True
 
 STATIC_URL = 'static/'
 
@@ -135,18 +141,18 @@ STATICFILES_DIRS = [
 LOGIN_URL = '/sign/login/'
 LOGIN_REDIRECT_URL = '/'
 
-#Дальнейшая конфигурация проекта будет ориентирована на различные способы регистрации/авторизации.
+# Дальнейшая конфигурация проекта будет ориентирована на различные способы регистрации/авторизации.
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-#Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо формы по умолчанию
+# Чтобы allauth распознал нашу форму как ту, что должна выполняться вместо формы по умолчанию
 ACCOUNT_FORMS = {'signup': 'sign.models.BaseRegisterForm'}
 
 SITE_URL = 'http://127.0.0.1:8000'
-#Рассылка с емайла на емаайл
+# Рассылка с емайла на емаайл
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 's-ya98'
@@ -154,7 +160,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = 's-ya98@ya.ru'
 
-#Для админки.
+# Для админки.
 ADMINS = [
     ('prezidentlink', 'Prezidentlink@yandex.ru'),
 ]
@@ -162,22 +168,23 @@ SERVER_EMAIL = 's-ya98@ya.ru'
 
 # формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
-# если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+# если задача не выполняется за 25 секунд, то она автоматически снимается,
+# можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
-#РедисЛАб
+# РедисЛАб
 CELERY_BROKER_URL = 'redis-19444.c61.us-east-1-3.ec2.cloud.redislabs.com'
 CELERY_RESULT_BACKEND = 'redis-19444.c61.us-east-1-3.ec2.cloud.redislabs.com'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-#Кешируем.
+# Кешируем.
 CACHES = {
     'default': {
         'TIMEOUT': 5,
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),   # Указываем, куда будем сохранять кэшируемые файлы!
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),  # Указываем, куда будем сохранять кэшируемые файлы!
     }
 }
 
@@ -186,7 +193,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'style': '{',
 
-#ФОРМАТИРОВАНИЕ
+    # ФОРМАТИРОВАНИЕ
     'formatters': {
         'simple': {
             'format': '%(asctime)s %(levelname)s %(message)s'
@@ -202,7 +209,7 @@ LOGGING = {
         },
     },
 
-#ФИЛЬТРЫ
+    # ФИЛЬТРЫ
     'filters': {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
@@ -212,8 +219,7 @@ LOGGING = {
         },
     },
 
-
-#ОБРАБОТЧИКИ
+    # ОБРАБОТЧИКИ
     'handlers': {
         'console': {
             'level': 'DEBUG',
@@ -260,7 +266,7 @@ LOGGING = {
         },
     },
 
-#РЕГИСТРАТОРЫ
+    # РЕГИСТРАТОРЫ
     'loggers': {
         'django': {
             'handlers': ['console', 'warning_to_console', 'error_to_console', 'general_to_file', ],
@@ -288,7 +294,6 @@ LOGGING = {
         },
     }
 }
-
 
 # if DEBUG:
 #     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
