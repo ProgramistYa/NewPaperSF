@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models import Sum
 from django.contrib.auth.models import User
-from datetime import datetime
 from django.urls import reverse
+
+from datetime import datetime
 
 
 class Author(models.Model):
@@ -25,7 +26,7 @@ class Category(models.Model):
     subject = models.CharField(unique=True, max_length=64)
     subscribers = models.ManyToManyField(User, related_name='Categories')
 
-    # Либо с большой буквы                                                        cC
+    # Либо с большой буквы                                   cC
     def __str__(self):
         return self.subject.title()
 

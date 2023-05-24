@@ -120,6 +120,12 @@ AUTHENTICATION_BACKENDS = [
 
 LANGUAGE_CODE = 'en-us'
 
+
+LANGUAGES = [
+    ('en-us', 'English'),
+    ('ru', 'Русский')
+]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True

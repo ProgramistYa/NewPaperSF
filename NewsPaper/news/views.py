@@ -10,6 +10,7 @@ from .forms import PostForm
 from .models import Post, Category
 from .filters import PostFilter
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import HttpResponse
 
 #  для расслыок на почту по емейлу
 from django.core.mail import send_mail, EmailMultiAlternatives
@@ -162,3 +163,16 @@ def unsubscribe(request, pk):
     if category.subscribers.filter(id=user.id).exists():
         category.subscribers.remove(user)
     return redirect('protect:index')
+
+
+# для переведа текста локального
+class Index(View):
+    def get(self, request):
+        #  Переводчики: это сообщение появляется только на главной странице
+        models = Post.objects.all()
+
+        context = {
+            'models': models,
+        }
+
+        return HttpResponse(render(request, 'index.html', context))
