@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # включите поставщиков, которых вы хотите включить:
     'allauth.socialaccount.providers.google',
     'django_apscheduler',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -300,6 +301,14 @@ LOGGING = {
         },
     }
 }
+
+
+REST_FRAMEWORK = {
+   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+   'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+   'PAGE_SIZE': 10
+}
+
 
 # if DEBUG:
 #     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
