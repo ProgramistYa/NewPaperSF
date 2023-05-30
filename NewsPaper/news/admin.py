@@ -12,11 +12,11 @@ class PostAdmin(admin.ModelAdmin):
     # search_fields = ('')   #   тут всё очень похоже на фильтры из запросов в базу
 
 
-# class TranslatedPostAdmin(TranslationAdmin):
-#     model = Post
-#
-# class CategoryAdmin(TranslationAdmin):
-#     model = Category
+class TranslatedPostAdmin(TranslationAdmin):
+    model = Post
+ # не работают.
+class CategoryAdmin(TranslationAdmin):
+    model = Category
 
 
 admin.site.register(Category)
