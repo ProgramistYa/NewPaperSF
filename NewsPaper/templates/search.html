@@ -8,47 +8,47 @@
 {% load custom_tags %}
 
 {% block content %}
-    <form action="{% url 'set_language' %}" method="POST"> {% csrf_token %}
-        <input type="hidden" name="next" value="{{ redirect_to }}">
+<form action="{% url 'set_language' %}" method="POST"> {% csrf_token %}
+    <input type="hidden" name="next" value="{{ redirect_to }}">
 
-        <select name="language" id="">
-            {% get_available_languages as LANGUAGES %}
-            {% get_language_info_list for LANGUAGES as languages %}
+    <select name="language" id="">
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
 
-            {% for language in languages %}
-                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
-                    {{ language.name_local }} - {{ language.code }}
-                </option>
-            {% endfor %}
-        </select>
+        {% for language in languages %}
+        <option value="{{ language.code }}" {% if language.code== LANGUAGE_CODE %} selected {% endif %}>
+            {{ language.name_local }} - {{ language.code }}
+        </option>
+        {% endfor %}
+    </select>
     <h1>Тут увидите все посты: статьи и новости.</h1>
     <h3>Найдено {{ news|length }} публикаций.</h3>
 
     <hr>
 
     {% if news %}
-        <table class="table table-bordered" cellspacing="3" cellpadding="5" border="5" width="45%">
-            <tr>
-                <td><strong>Название</strong></td>
-                <td><strong>Дата публикации</strong></td>
-                <td><strong>Категория</strong></td>
-            </tr>
+    <table class="table table-bordered" cellspacing="3" cellpadding="5" border="5" width="45%">
+        <tr>
+            <td><strong>Название</strong></td>
+            <td><strong>Дата публикации</strong></td>
+            <td><strong>Категория</strong></td>
+        </tr>
 
-            {% for new in news %}
-            <tr>
-                <td>{{ new.title|censor }}</td>
-                <td>{{ new.time_in|date:'d M Y' }}</td>
-                <td>{{ new.content|truncatechars:30|censor }}</td>
-            </tr>
-            {% endfor %}
+        {% for new in news %}
+        <tr>
+            <td>{{ new.title|censor }}</td>
+            <td>{{ new.time_in|date:'d M Y' }}</td>
+            <td>{{ new.content|truncatechars:30|censor }}</td>
+        </tr>
+        {% endfor %}
 
-        </table>
+    </table>
 
     {% else %}
-        <h2> Ничего нет !</h2>
+    <h2> Ничего нет !</h2>
 
     {% endif %}
 
     <hr>
 
-{% endblock content %}
+    {% endblock content %}
