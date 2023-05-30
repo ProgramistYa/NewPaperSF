@@ -25,6 +25,7 @@ SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'modeltranslation',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -118,8 +119,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE = 'ru'
 
 LANGUAGES = [
     ('en-us', 'English'),

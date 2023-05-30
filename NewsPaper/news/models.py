@@ -5,6 +5,9 @@ from django.urls import reverse
 
 from datetime import datetime
 
+from django.utils.translation import gettext as _
+from django.utils.translation import pgettext_lazy
+
 
 class Author(models.Model):
     user_relation = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -23,7 +26,7 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    subject = models.CharField(unique=True, max_length=64)
+    subject = models.CharField(unique=True, max_length=64, help_text=_('category subject'))
     subscribers = models.ManyToManyField(User, related_name='Categories')
 
     # Либо с большой буквы                                   cC
@@ -47,7 +50,7 @@ class Post(models.Model):
     time_in = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=255)
-    content_text = models.TextField()
+    content_text = models.TextField(help_text=_('category content_text'))
     content_rate = models.IntegerField(default=0.0)
 
     def __str__(self):
