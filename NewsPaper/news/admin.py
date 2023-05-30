@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import *
-
 from modeltranslation.admin import TranslationAdmin
 
 
@@ -12,15 +11,16 @@ class PostAdmin(admin.ModelAdmin):
     # search_fields = ('')   #   тут всё очень похоже на фильтры из запросов в базу
 
 
-class TranslatedPostAdmin(TranslationAdmin):
+class TranslatedPostAdmin(PostAdmin, TranslationAdmin):
     model = Post
- # не работают.
+
+# не работают.
 class CategoryAdmin(TranslationAdmin):
     model = Category
 
 
-admin.site.register(Category)
-admin.site.register(Post)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Post, TranslatedPostAdmin)
 admin.site.register(Author)
 admin.site.register(PostCategory)
 admin.site.register(Comment)
