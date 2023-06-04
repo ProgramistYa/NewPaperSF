@@ -1,7 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from rest_framework import routers
+from news import views
 import modeltranslation.models
+
+routers = routers.DefaultRouter()
+routers.register(r'category', views.CategoryViewset)
+routers.register(r'post', views.PostViewset)
 
 
 urlpatterns = [

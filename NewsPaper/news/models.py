@@ -52,6 +52,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     content_text = models.TextField(help_text=_('category content_text'))
     content_rate = models.IntegerField(default=0.0)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.title} - {self.content_text}'

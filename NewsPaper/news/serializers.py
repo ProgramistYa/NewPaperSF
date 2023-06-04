@@ -5,11 +5,11 @@ from rest_framework import serializers
 class PostSerializer(serializers.HyperlinkedModelSerializer):
    class Meta:
        model = Post
-       fields = ['id', 'name', ]
+       fields = ['author', 'time_in', 'category', 'content_rate', ]
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
    class Meta:
        model = Category
-       fields = ['id', 'grade', ]
+       fields = ['subject', 'subscribers', ]
 
