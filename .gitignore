@@ -2,4 +2,4 @@
 ./venv
 .env
 .NewsPaper/cache_files
-.cache_files
+.cache_files/
