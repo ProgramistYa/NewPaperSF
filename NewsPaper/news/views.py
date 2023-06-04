@@ -15,9 +15,12 @@ from django.http import HttpResponse
 #  для рассылок на почту по емейлу
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
-
 from django.db.models.signals import post_save
 from django.http import HttpResponseRedirect
+
+from requests import Response
+from serializers import CategorySerializer, PostSerializer   # для рест.апи
+from rest_framework import viewsets, status, permissions
 
 
 class PostList(ListView):
@@ -176,3 +179,24 @@ class Index(View):
         }
 
         return HttpResponse(render(request, 'index.html', context))
+
+
+# для рест.апи
+
+class CategorylViewset(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+    def list(self, request, format=None):
+        return Response([])
+
+
+class PostViewset(viewsets.ModelViewSet):
+    queryset = Post.objects.all().filter(is_active=True)
+    serializer_class = PostSerializer
+
+    def destroy(self, request, pk, format=None):
+        instance = self.get_object()
+        instance.is_active = False
+        instance.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
