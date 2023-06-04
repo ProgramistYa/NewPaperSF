@@ -1,3 +1,4 @@
 .idea
 ./venv
 .env
+./NewsPaper/cache_files
