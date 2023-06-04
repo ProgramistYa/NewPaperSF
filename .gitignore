@@ -1,5 +1,5 @@
 .idea
 ./venv
 .env
-./NewsPaper/cache_files
+.NewsPaper/cache_files
 .cache_files
