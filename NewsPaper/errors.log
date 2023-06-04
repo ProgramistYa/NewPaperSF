@@ -259,3 +259,57 @@ Traceback (most recent call last):
     raise self.error(
 django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 3: 'custom_tags'. Did you forget to register or load this tag?
 2023-06-04 14:40:53,898 ERROR "GET /news/ HTTP/1.1" 500 187614 D:\WORK\Djjjango2\venv\lib\site-packages\django\core\servers\basehttp.py None
+2023-06-04 17:29:46,660 ERROR Internal Server Error: /news/create/ D:\WORK\Djjjango2\venv\lib\site-packages\django\utils\log.py (<class 'smtplib.SMTPAuthenticationError'>, SMTPAuthenticationError(535, b'5.7.8 Error: authentication failed: Invalid user or password! 1685888986-kTSwJ0oDeOs0'), <traceback object at 0x000001495AA007C0>)
+Traceback (most recent call last):
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\views\generic\base.py", line 103, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\contrib\auth\mixins.py", line 109, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\views\generic\base.py", line 142, in dispatch
+    return handler(request, *args, **kwargs)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\views\generic\edit.py", line 184, in post
+    return super().post(request, *args, **kwargs)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\views\generic\edit.py", line 153, in post
+    return self.form_valid(form)
+  File "D:\WORK\Djjjango2\NewsPaper\news\views.py", line 61, in form_valid
+    return super().form_valid(form)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\views\generic\edit.py", line 135, in form_valid
+    self.object = form.save()
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\forms\models.py", line 549, in save
+    self._save_m2m()
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\forms\models.py", line 530, in _save_m2m
+    f.save_form_data(self.instance, cleaned_data[f.name])
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\db\models\fields\related.py", line 1966, in save_form_data
+    getattr(instance, self.attname).set(data)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\db\models\fields\related_descriptors.py", line 1169, in set
+    self.add(*new_objs, through_defaults=through_defaults)
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\db\models\fields\related_descriptors.py", line 1087, in add
+    self._add_items(
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\db\models\fields\related_descriptors.py", line 1373, in _add_items
+    signals.m2m_changed.send(
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\dispatch\dispatcher.py", line 176, in send
+    return [
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\dispatch\dispatcher.py", line 177, in <listcomp>
+    (receiver, receiver(signal=self, sender=sender, **named))
+  File "D:\WORK\Djjjango2\NewsPaper\news\signals.py", line 41, in notify_new_post
+    send_notifications(instance.preview(), instance.pk, instance.title, subscribers)
+  File "D:\WORK\Djjjango2\NewsPaper\news\signals.py", line 26, in send_notifications
+    msg.send()
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\core\mail\message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\core\mail\backends\smtp.py", line 124, in send_messages
+    new_conn_created = self.open()
+  File "D:\WORK\Djjjango2\venv\lib\site-packages\django\core\mail\backends\smtp.py", line 91, in open
+    self.connection.login(self.username, self.password)
+  File "D:\WORK\PYTON 3.8.5\lib\smtplib.py", line 734, in login
+    raise last_exception
+  File "D:\WORK\PYTON 3.8.5\lib\smtplib.py", line 723, in login
+    (code, resp) = self.auth(
+  File "D:\WORK\PYTON 3.8.5\lib\smtplib.py", line 646, in auth
+    raise SMTPAuthenticationError(code, resp)
+smtplib.SMTPAuthenticationError: (535, b'5.7.8 Error: authentication failed: Invalid user or password! 1685888986-kTSwJ0oDeOs0')
+2023-06-04 17:29:46,662 ERROR "POST /news/create/ HTTP/1.1" 500 171207 D:\WORK\Djjjango2\venv\lib\site-packages\django\core\servers\basehttp.py None
